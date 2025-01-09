@@ -1,13 +1,13 @@
 package operative1
 
 import (
-	"github.com/behavioral-ai/agents/caseofficer"
+	"github.com/behavioral-ai/caseofficer/operative1"
 	"github.com/behavioral-ai/core/core"
 	"github.com/behavioral-ai/core/messaging"
 )
 
 const (
-	Class = "agency-operative1"
+	Class = "operations-operative1"
 )
 
 type ops struct {
@@ -78,7 +78,7 @@ func (o *ops) Run() {
 	if o.running {
 		return
 	}
-	go emissaryAttend(o, caseofficer.NewAgent)
+	go emissaryAttend(o, operative1.NewAgent)
 	o.running = true
 }
 
