@@ -1,25 +1,25 @@
 package operative1
 
 import (
-	"github.com/behavioral-ai/caseofficer/operative1"
-	"github.com/behavioral-ai/core/core"
+	"github.com/behavioral-ai/caseofficer/agent"
 	"github.com/behavioral-ai/core/messaging"
+	"github.com/behavioral-ai/domain/collective"
 )
 
 const (
 	Class = "operations-operative1"
+	Name  = "resiliency:agent/operations/operative"
 )
 
+// TODO : need host name
 type ops struct {
 	running bool
-	agentId string
+	uri     string
 
 	emissary     *messaging.Channel
 	caseOfficers *messaging.Exchange
-	notifier     messaging.Notifier
-	tracer       messaging.Tracer
+	notifier     messaging.NotifyFunc
 	dispatcher   messaging.Dispatcher
-	sender       dispatcher
 }
 
 func cast(agent any) *ops {
@@ -27,26 +27,21 @@ func cast(agent any) *ops {
 	return o
 }
 
-var opsAgent messaging.OpsAgent
-
-func init() {
-	opsAgent = NewAgent()
-	opsAgent.Run()
+// New - create a new operative
+func New() messaging.Agent {
+	return newAgent(nil, nil)
 }
 
-// NewAgent - create a new operative1 agent
-func NewAgent() messaging.OpsAgent {
-	return newAgent(Class, messaging.LogErrorNotifier, messaging.DefaultTracer, nil, newDispatcher())
-}
-
-func newAgent(agentId string, notifier messaging.Notifier, tracer messaging.Tracer, dispatcher messaging.Dispatcher, sender dispatcher) *ops {
+func newAgent(notifier messaging.NotifyFunc, dispatcher messaging.Dispatcher) *ops {
 	r := new(ops)
-	r.agentId = agentId
+	r.uri = Name
+
 	r.caseOfficers = messaging.NewExchange()
-	r.emissary = messaging.NewEmissaryChannel(true)
+	r.emissary = messaging.NewEmissaryChannel()
 	r.notifier = notifier
-	r.tracer = tracer
-	r.sender = sender
+	if r.notifier == nil {
+		r.notifier = collective.Resolver.Notify
+	}
 	r.dispatcher = dispatcher
 	return r
 }
@@ -55,15 +50,10 @@ func newAgent(agentId string, notifier messaging.Notifier, tracer messaging.Trac
 func (o *ops) String() string { return o.Uri() }
 
 // Uri - agent identifier
-func (o *ops) Uri() string { return o.agentId }
+func (o *ops) Uri() string { return o.uri }
 
-// Notify - status notifier
-func (o *ops) Notify(status *core.Status) *core.Status { return o.notifier.Notify(status) }
-
-// Trace - activity tracing
-func (o *ops) Trace(agent messaging.Agent, channel, event, activity string) {
-	o.tracer.Trace(agent, channel, event, activity)
-}
+// Name - agent urn
+func (o *ops) Name() string { return Name }
 
 // Message - message the agent
 func (o *ops) Message(m *messaging.Message) {
@@ -78,40 +68,26 @@ func (o *ops) Run() {
 	if o.running {
 		return
 	}
-	go emissaryAttend(o, operative1.NewAgent)
+	go emissaryAttend(o, agent.New())
 	o.running = true
 }
 
 // Shutdown - shutdown the agent
 func (o *ops) Shutdown() {
-	if !o.running {
-		return
+	if !o.emissary.IsClosed() {
+		o.emissary.C <- messaging.Shutdown
 	}
-	o.running = false
-	msg := messaging.NewControlMessage(o.Uri(), o.Uri(), messaging.ShutdownEvent)
-	o.emissary.Enable()
-	o.emissary.C <- msg
 }
 
-func (o *ops) IsFinalized() bool {
-	return o.emissary.IsFinalized() && o.caseOfficers.IsFinalized()
+func (o *ops) notify(e messaging.Event) {
+	o.notifier(e)
+}
+
+func (o *ops) dispatch(channel any, event string) {
+	messaging.Dispatch(o, o.dispatcher, channel, event)
 }
 
 func (o *ops) finalize() {
 	o.emissary.Close()
 	o.caseOfficers.Shutdown()
-}
-
-func (o *ops) setup(event string) {
-	if o.dispatcher == nil {
-		o.sender.setup(o, event)
-	}
-}
-
-func (o *ops) dispatch(event string) {
-	if o.dispatcher != nil {
-		o.dispatcher.Dispatch(o, messaging.EmissaryChannel, event, "")
-		return
-	}
-	o.sender.dispatch(o, event)
 }

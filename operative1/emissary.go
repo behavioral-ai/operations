@@ -3,7 +3,6 @@ package operative1
 import (
 	"github.com/behavioral-ai/core/core"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/resiliency/guidance"
 )
 
 const (
@@ -21,16 +20,12 @@ func emissaryAttend(agent *ops, newAgent newOfficerAgent) {
 	for {
 		select {
 		case msg := <-agent.emissary.C:
-			agent.setup(msg.Event())
 			switch msg.Event() {
 			case messaging.ShutdownEvent:
 				agent.finalize()
 				return
 			case messaging.DataChangeEvent:
-				if msg.IsContentType(guidance.ContentTypeCalendar) {
-					agent.caseOfficers.Broadcast(msg)
-					agent.dispatch(msg.Event())
-				}
+
 			case stopAgentsEvent:
 				agent.caseOfficers.Shutdown()
 				agent.dispatch(msg.Event())
@@ -40,7 +35,6 @@ func emissaryAttend(agent *ops, newAgent newOfficerAgent) {
 					agent.dispatch(msg.Event())
 				}
 			default:
-				agent.Notify(messaging.EventErrorStatus(agent.agentId, msg))
 			}
 		default:
 		}
