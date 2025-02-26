@@ -68,7 +68,7 @@ func (o *ops) Run() {
 	if o.running {
 		return
 	}
-	go emissaryAttend(o, agent.New())
+	go emissaryAttend(o, agent.New)
 	o.running = true
 }
 
@@ -76,6 +76,7 @@ func (o *ops) Run() {
 func (o *ops) Shutdown() {
 	if !o.emissary.IsClosed() {
 		o.emissary.C <- messaging.Shutdown
+		o.caseOfficers.Shutdown()
 	}
 }
 

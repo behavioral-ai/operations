@@ -1,30 +1,48 @@
 package http
 
 import (
-	"errors"
-	"fmt"
-	"github.com/behavioral-ai/agency/module"
-	"github.com/behavioral-ai/agency/resiliency"
-	"github.com/behavioral-ai/core/core"
-	"github.com/behavioral-ai/core/httpx"
-	"github.com/behavioral-ai/core/uri"
+	"github.com/behavorial-ai/operations/module"
 	"net/http"
 )
 
-// http://localhost:8085/github/advanced-go/agency:resiliency?action=send
+// http://localhost:8080/resiliency?event=startup
 
 const (
-	PkgPath = "github/advanced-go/operations/http"
-	ver1    = "v1"
-	ver2    = "v2"
-
-	resiliencyResource  = "resiliency"
-	healthLivenessPath  = "health/liveness"
-	healthReadinessPath = "health/readiness"
+	resiliencyResource = "resiliency"
+	eventKey           = "event"
 )
 
 // Exchange - HTTP exchange function
-func Exchange(r *http.Request) (*http.Response, *core.Status) {
+func Exchange(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/"+resiliencyResource {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error: invalid path"))
+		return
+	}
+	values := r.URL.Query()
+	if len(values) == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error: no query args"))
+		return
+	}
+	event := values.Get(eventKey)
+	if event == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("error: event query key not found"))
+		return
+	}
+	err := module.AgentMessage(event)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+}
+
+/*
+
+func Exchange(w http.ResponseWriter, r *http.Request)  {
 	h2 := make(http.Header)
 	h2.Add(httpx.ContentType, httpx.ContentTypeText)
 
@@ -49,3 +67,5 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 		return httpx.NewResponse(status.HttpCode(), h2, status.Err)
 	}
 }
+
+*/

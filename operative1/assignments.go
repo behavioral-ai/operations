@@ -1,26 +1,25 @@
 package operative1
 
 import (
-	"errors"
-	"github.com/behavioral-ai/core/core"
+	"github.com/behavioral-ai/core/messaging"
 )
 
 func createAssignments(agent *ops, newAgent newOfficerAgent) {
-	if newAgent == nil {
-		agent.Notify(core.NewStatusError(core.StatusInvalidArgument, errors.New("error: initialize newAgent is nil")))
-		return
-	}
-	a := newAgent(westOrigin, agent, agent.dispatcher)
+	//if newAgent == nil {
+	//agent.Notify(core.NewStatusError(core.StatusInvalidArgument, errors.New("error: initialize newAgent is nil")))
+	//	return
+	//}
+	a := newAgent(agent, westOrigin, agent.dispatcher)
 	err := agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.Notify(core.NewStatusError(core.StatusInvalidArgument, err))
+		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, "", agent.Uri()))
 	} else {
 		a.Run()
 	}
-	a = newAgent(centralOrigin, agent, agent.dispatcher)
+	a = newAgent(agent, centralOrigin, agent.dispatcher)
 	err = agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.Notify(core.NewStatusError(core.StatusInvalidArgument, err))
+		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, "", agent.Uri()))
 	} else {
 		a.Run()
 	}

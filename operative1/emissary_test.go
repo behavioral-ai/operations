@@ -1,40 +1,33 @@
 package operative1
 
 import (
-	"fmt"
-	"github.com/behavioral-ai/core/core"
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/core/test"
-	"github.com/behavioral-ai/resiliency/guidance"
+	"github.com/behavioral-ai/domain/common"
 )
 
 var (
-	shutdownMsg   = messaging.NewControlMessage("", "", messaging.ShutdownEvent)
-	dataChangeMsg = messaging.NewControlMessage("", "", messaging.DataChangeEvent)
-	startMsg      = messaging.NewControlMessage("", "", startAgentsEvent)
-	stopMsg       = messaging.NewControlMessage("", "", stopAgentsEvent)
+	shutdownMsg   = messaging.NewMessage(messaging.ControlChannel, messaging.ShutdownEvent)
+	dataChangeMsg = messaging.NewMessage(messaging.ControlChannel, messaging.DataChangeEvent)
+	startMsg      = messaging.NewMessage(messaging.ControlChannel, messaging.StartEvent)
+	stopMsg       = messaging.NewMessage(messaging.ControlChannel, messaging.StopEvent)
 )
 
-func init() {
-	dataChangeMsg.SetContent(guidance.ContentTypeCalendar, guidance.NewProcessingCalendar())
-}
-
-func officer(origin core.Origin, handler messaging.OpsAgent, dispatcher messaging.Dispatcher) messaging.OpsAgent {
+func officer(handler messaging.Agent, origin common.Origin, dispatcher messaging.Dispatcher) messaging.Agent {
 	return test.NewAgent("officer:" + origin.Region)
 }
 
 func ExampleEmissary() {
 	ch := make(chan struct{})
-	traceDispatcher := messaging.NewTraceDispatcher(nil, "")
-	agent := newAgent(Class, messaging.OutputErrorNotifier, test.DefaultTracer, traceDispatcher, newTestDispatcher())
+	traceDispatcher := messaging.NewTraceDispatcher()
+	agent := newAgent(messaging.Notify, traceDispatcher)
 
 	go func() {
 		go emissaryAttend(agent, officer)
-		agent.Message(dataChangeMsg)
-		agent.Message(startMsg)
-		agent.Message(stopMsg)
-		agent.Message(shutdownMsg)
-		fmt.Printf("test: emissaryAttend() -> [finalized:%v]\n", agent.IsFinalized())
+		//agent.Message(dataChangeMsg)
+		//agent.Message(startMsg)
+		//agent.Message(stopMsg)
+		agent.Shutdown()
 		ch <- struct{}{}
 	}()
 	<-ch

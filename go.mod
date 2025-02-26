@@ -3,15 +3,12 @@ module github.com/behavorial-ai/operations
 go 1.21.4
 
 require (
-	github.com/behavioral-ai/agency v0.0.0-20241206192650-a3b67a52f2c6
-	github.com/behavioral-ai/agents v0.0.0-20241229125638-4d20d4e2824b
-	github.com/behavioral-ai/core v0.0.0-20250226002330-b5e429e71998
-	github.com/behavioral-ai/log v0.0.0-20241219134722-0518e842e5bb
-	github.com/behavioral-ai/resiliency v0.0.0-20241204144107-77df91af3e63
+	github.com/behavioral-ai/caseofficer v0.0.0-20250226141222-5770d6b3fb3d
+	github.com/behavioral-ai/core v0.0.0-20250226154951-bc0d6822d7d3
+	github.com/behavioral-ai/domain v0.0.0-20250226144452-3519eb4b66f6
 )
 
 require (
-	github.com/behavioral-ai/caseofficer v0.0.0-20250223230028-1f918ca61b71 // indirect
-	github.com/behavioral-ai/domain v0.0.0-20250226003330-e921ae8fe6bb // indirect
+	github.com/behavioral-ai/operative v0.0.0-20250226010049-316ef7437474 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 )

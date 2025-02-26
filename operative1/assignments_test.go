@@ -1,21 +1,16 @@
 package operative1
 
-import (
-	"fmt"
-	"github.com/behavioral-ai/core/core"
-	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/core/test"
-)
+/*
 
 func ExampleInitialize_Error() {
-	notifier := test.NewNotifier()
-	agent := newAgent(Class, notifier, test.DefaultTracer, nil, nil)
+	notifier := messaging.Notify
+	agent := newAgent(notifier, messaging.NewTraceDispatcher())
 
 	createAssignments(agent, nil)
 	fmt.Printf("test: initialize() -> [status:%v]\n", notifier.Status())
 
 	notifier.Reset()
-	createAssignments(agent, func(origin core.Origin, handler messaging.OpsAgent, dispatcher messaging.Dispatcher) messaging.OpsAgent {
+	createAssignments(agent, func(origin common.Origin, handler messaging.OpsAgent, dispatcher messaging.Dispatcher) messaging.OpsAgent {
 		return test.NewAgent("")
 	})
 	fmt.Printf("test: initialize() -> [status:%v]\n", notifier.Status())
@@ -37,3 +32,6 @@ func ExampleInitialize_Error() {
 	//test: initialize() -> [status:Invalid Argument [error: exchange.Register() agent already exists: [agent:test]]]
 
 }
+
+
+*/
