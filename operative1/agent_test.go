@@ -6,7 +6,7 @@ import (
 )
 
 func Example_cast() {
-	a := NewAgent()
+	a := New()
 	fmt.Printf("test: cast_string() -> %v\n", a)
 
 	opsT := cast(a)

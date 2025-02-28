@@ -12,14 +12,14 @@ func createAssignments(agent *ops, newAgent newOfficerAgent) {
 	a := newAgent(agent, westOrigin, agent.dispatcher)
 	err := agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, "", agent.Uri()))
+		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
 	}
 	a = newAgent(agent, centralOrigin, agent.dispatcher)
 	err = agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, "", agent.Uri()))
+		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
 	}
