@@ -9,6 +9,6 @@ require (
 )
 
 require (
-	github.com/behavioral-ai/operative v0.0.0-20250226205337-160f5b2bd40e // indirect
+	github.com/behavioral-ai/operative v0.0.0-20250228134229-8ff4a9355f6d // indirect
 	github.com/google/uuid v1.6.0 // indirect
 )

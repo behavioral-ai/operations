@@ -10,5 +10,7 @@ github.com/behavioral-ai/operative v0.0.0-20250226144542-7ba49bdf7524 h1:wEASfMc
 github.com/behavioral-ai/operative v0.0.0-20250226144542-7ba49bdf7524/go.mod h1:be0mHKrK4WZrAV+Q3T4ZhLylQKn+rdSFEmW0tFsEu9o=
 github.com/behavioral-ai/operative v0.0.0-20250226205337-160f5b2bd40e h1:McTfphi0987C80tsX+2PpNYr4q1hKjY2PzST/26kp/4=
 github.com/behavioral-ai/operative v0.0.0-20250226205337-160f5b2bd40e/go.mod h1:be0mHKrK4WZrAV+Q3T4ZhLylQKn+rdSFEmW0tFsEu9o=
+github.com/behavioral-ai/operative v0.0.0-20250228134229-8ff4a9355f6d h1:OHpvPM7grYBxDciYxR19rBXGZtrfU0rNmJvIh6uqBGc=
+github.com/behavioral-ai/operative v0.0.0-20250228134229-8ff4a9355f6d/go.mod h1:KOwnLsob22suVXzc6XiGgoOqBv/3MDC4ozQjmf7F1hs=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
