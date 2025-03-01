@@ -5,16 +5,14 @@ import (
 	"github.com/behavioral-ai/core/test"
 	"github.com/behavioral-ai/domain/collective"
 	"github.com/behavioral-ai/domain/common"
+	"time"
 )
 
-var (
-	shutdownMsg   = messaging.NewMessage(messaging.ControlChannel, messaging.ShutdownEvent)
-	dataChangeMsg = messaging.NewMessage(messaging.ControlChannel, messaging.DataChangeEvent)
-	startMsg      = messaging.NewMessage(messaging.ControlChannel, messaging.StartEvent)
-	stopMsg       = messaging.NewMessage(messaging.ControlChannel, messaging.StopEvent)
+const (
+	testDuration = time.Second
 )
 
-func officer(handler messaging.Agent, origin common.Origin, dispatcher messaging.Dispatcher) messaging.Agent {
+func officer(origin common.Origin, resolver collective.Resolution, dispatcher messaging.Dispatcher) messaging.Agent {
 	return test.NewAgent("officer:" + origin.Region)
 }
 
@@ -25,19 +23,17 @@ func ExampleEmissary() {
 
 	go func() {
 		go emissaryAttend(agent, officer)
-		//agent.Message(dataChangeMsg)
-		//agent.Message(startMsg)
-		//agent.Message(stopMsg)
+		time.Sleep(testDuration)
+
 		agent.Shutdown()
+		time.Sleep(testDuration)
+
 		ch <- struct{}{}
 	}()
 	<-ch
 	close(ch)
 
 	//Output:
-	//test: Trace() -> agency-operative1 : emissary event:data-change Broadcast() -> calendar data change event
-	//test: dispatch(event:start-agents) -> [count>0:true]
-	//test: dispatch(event:stop-agents) -> [count:0]
-	//test: emissaryAttend() -> [finalized:true]
+	//fail
 
 }

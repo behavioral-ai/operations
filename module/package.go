@@ -7,8 +7,7 @@ import (
 )
 
 const (
-	Domain    = "github/behavioral-ai/operations"
-	RouteName = "agency"
+	Domain = "github/behavioral-ai/operations"
 )
 
 func Startup(hosts []string, do collective.HttpExchange, appHostName string) {
