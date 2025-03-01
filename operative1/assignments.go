@@ -5,21 +5,17 @@ import (
 )
 
 func createAssignments(agent *ops, newAgent newOfficerAgent) {
-	//if newAgent == nil {
-	//agent.Notify(core.NewStatusError(core.StatusInvalidArgument, errors.New("error: initialize newAgent is nil")))
-	//	return
-	//}
-	a := newAgent(agent, westOrigin, agent.dispatcher)
+	a := newAgent(westOrigin, agent.resolver, agent.dispatcher)
 	err := agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
+		agent.resolver.Notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
 	}
-	a = newAgent(agent, centralOrigin, agent.dispatcher)
+	a = newAgent(centralOrigin, agent.resolver, agent.dispatcher)
 	err = agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
+		agent.resolver.Notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
 	}

@@ -18,7 +18,7 @@ type ops struct {
 
 	emissary     *messaging.Channel
 	caseOfficers *messaging.Exchange
-	notifier     messaging.NotifyFunc
+	resolver     collective.Resolution
 	dispatcher   messaging.Dispatcher
 }
 
@@ -32,15 +32,16 @@ func New() messaging.Agent {
 	return newAgent(nil, nil)
 }
 
-func newAgent(notifier messaging.NotifyFunc, dispatcher messaging.Dispatcher) *ops {
+func newAgent(resolver collective.Resolution, dispatcher messaging.Dispatcher) *ops {
 	r := new(ops)
 	r.uri = Name
 
 	r.caseOfficers = messaging.NewExchange()
 	r.emissary = messaging.NewEmissaryChannel()
-	r.notifier = notifier
-	if r.notifier == nil {
-		r.notifier = collective.Resolver.Notify
+	if resolver == nil {
+		r.resolver = collective.Resolver
+	} else {
+		r.resolver = resolver
 	}
 	r.dispatcher = dispatcher
 	return r
@@ -78,10 +79,6 @@ func (o *ops) Shutdown() {
 		o.emissary.C <- messaging.Shutdown
 		o.caseOfficers.Shutdown()
 	}
-}
-
-func (o *ops) notify(e messaging.Event) {
-	o.notifier(e)
 }
 
 func (o *ops) dispatch(channel any, event string) {

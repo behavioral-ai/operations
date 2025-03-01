@@ -3,6 +3,7 @@ package operative1
 import (
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/core/test"
+	"github.com/behavioral-ai/domain/collective"
 	"github.com/behavioral-ai/domain/common"
 )
 
@@ -20,7 +21,7 @@ func officer(handler messaging.Agent, origin common.Origin, dispatcher messaging
 func ExampleEmissary() {
 	ch := make(chan struct{})
 	traceDispatcher := messaging.NewTraceDispatcher()
-	agent := newAgent(messaging.Notify, traceDispatcher)
+	agent := newAgent(collective.NewEphemeralResolver(), traceDispatcher)
 
 	go func() {
 		go emissaryAttend(agent, officer)
