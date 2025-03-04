@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/common"
 )
 
 const (
@@ -12,9 +11,7 @@ const (
 )
 
 var (
-	westOrigin    = common.Origin{Region: "us-west", Host: "www.west-host1.com"}
-	centralOrigin = common.Origin{Region: "us-central", Host: "www.central-host1.com"}
-	opsAgent      = New()
+	opsAgent = New()
 )
 
 func AgentMessage(event string) error {

@@ -6,8 +6,8 @@ import (
 )
 
 func createAssignments(agent *ops, newAgent newOfficerAgent) {
-	addAssignment(agent, westOrigin, newAgent)
-	addAssignment(agent, centralOrigin, newAgent)
+	addAssignment(agent, common.Origin{Region: common.WestRegion}, newAgent)
+	addAssignment(agent, common.Origin{Region: common.CentralRegion}, newAgent)
 }
 
 func addAssignment(agent *ops, origin common.Origin, newAgent newOfficerAgent) {
