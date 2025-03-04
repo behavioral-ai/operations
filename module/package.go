@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	Domain = "github/behavioral-ai/operations"
+	Domain         = "github/behavioral-ai/operations"
+	ResiliencyPath = "/resiliency"
 )
 
 func Startup(hosts []string, do collective.HttpExchange, appHostName string) {
