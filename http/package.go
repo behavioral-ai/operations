@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/behavorial-ai/operations/module"
+	"github.com/behavioral-ai/operations/module"
 	"net/http"
 )
 

@@ -3,7 +3,7 @@ package module
 import (
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/domain/collective"
-	"github.com/behavorial-ai/operations/operative1"
+	"github.com/behavioral-ai/operations/operative1"
 )
 
 const (
