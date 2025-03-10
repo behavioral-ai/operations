@@ -12,7 +12,7 @@ const (
 )
 
 // TODO : need host name
-type ops struct {
+type agentT struct {
 	running bool
 	uri     string
 
@@ -22,8 +22,8 @@ type ops struct {
 	dispatcher   messaging.Dispatcher
 }
 
-func cast(agent any) *ops {
-	o, _ := agent.(*ops)
+func cast(agent any) *agentT {
+	o, _ := agent.(*agentT)
 	return o
 }
 
@@ -32,8 +32,8 @@ func New() messaging.Agent {
 	return newAgent(nil, nil)
 }
 
-func newAgent(resolver collective.Resolution, dispatcher messaging.Dispatcher) *ops {
-	r := new(ops)
+func newAgent(resolver collective.Resolution, dispatcher messaging.Dispatcher) *agentT {
+	r := new(agentT)
 	r.uri = Name
 
 	r.caseOfficers = messaging.NewExchange()
@@ -48,44 +48,44 @@ func newAgent(resolver collective.Resolution, dispatcher messaging.Dispatcher) *
 }
 
 // String - identity
-func (o *ops) String() string { return o.Uri() }
+func (a *agentT) String() string { return a.Uri() }
 
 // Uri - agent identifier
-func (o *ops) Uri() string { return o.uri }
+func (a *agentT) Uri() string { return a.uri }
 
 // Name - agent urn
-func (o *ops) Name() string { return Name }
+func (a *agentT) Name() string { return Name }
 
 // Message - message the agent
-func (o *ops) Message(m *messaging.Message) {
+func (a *agentT) Message(m *messaging.Message) {
 	if m == nil {
 		return
 	}
-	o.emissary.C <- m
+	a.emissary.C <- m
 }
 
 // Run - run the agent
-func (o *ops) Run() {
-	if o.running {
+func (a *agentT) Run() {
+	if a.running {
 		return
 	}
-	go emissaryAttend(o, agent.New)
-	o.running = true
+	go emissaryAttend(a, agent.New)
+	a.running = true
 }
 
 // Shutdown - shutdown the agent
-func (o *ops) Shutdown() {
-	if !o.emissary.IsClosed() {
-		o.emissary.C <- messaging.Shutdown
-		o.caseOfficers.Shutdown()
+func (a *agentT) Shutdown() {
+	if !a.emissary.IsClosed() {
+		a.emissary.C <- messaging.Shutdown
+		a.caseOfficers.Shutdown()
 	}
 }
 
-func (o *ops) dispatch(channel any, event string) {
-	messaging.Dispatch(o, o.dispatcher, channel, event)
+func (a *agentT) dispatch(channel any, event string) {
+	messaging.Dispatch(a, a.dispatcher, channel, event)
 }
 
-func (o *ops) finalize() {
-	o.emissary.Close()
-	o.caseOfficers.Shutdown()
+func (a *agentT) finalize() {
+	a.emissary.Close()
+	a.caseOfficers.Shutdown()
 }

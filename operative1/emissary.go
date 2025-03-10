@@ -9,7 +9,7 @@ import (
 type newOfficerAgent func(origin common.Origin, resolver collective.Resolution, dispatcher messaging.Dispatcher) messaging.Agent
 
 // emissary attention
-func emissaryAttend(agent *ops, newAgent newOfficerAgent) {
+func emissaryAttend(agent *agentT, newAgent newOfficerAgent) {
 	agent.dispatch(agent.emissary, messaging.StartupEvent)
 	paused := false
 	createAssignments(agent, newAgent)
