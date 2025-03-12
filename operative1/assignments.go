@@ -1,6 +1,7 @@
 package operative1
 
 import (
+	"fmt"
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/domain/common"
 )
@@ -17,5 +18,6 @@ func addAssignment(agent *agentT, origin common.Origin, newAgent newOfficerAgent
 		agent.resolver.Notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
+		agent.resolver.AddActivity(agent, "event:add-assignment", messaging.Emissary, fmt.Sprintf("added assignment: %v", origin))
 	}
 }

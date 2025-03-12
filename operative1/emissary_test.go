@@ -23,10 +23,10 @@ func ExampleEmissary() {
 
 	go func() {
 		go emissaryAttend(agent, officer)
-		time.Sleep(testDuration)
+		time.Sleep(testDuration * 2)
 
 		agent.Shutdown()
-		time.Sleep(testDuration)
+		time.Sleep(testDuration * 2)
 
 		ch <- struct{}{}
 	}()

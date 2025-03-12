@@ -7,8 +7,7 @@ import (
 )
 
 const (
-	Class = "operations-operative1"
-	Name  = "resiliency:agent/operations/operative"
+	Name = "resiliency:agent/operations/operative"
 )
 
 // TODO : need host name
@@ -20,11 +19,6 @@ type agentT struct {
 	caseOfficers *messaging.Exchange
 	resolver     collective.Resolution
 	dispatcher   messaging.Dispatcher
-}
-
-func cast(agent any) *agentT {
-	o, _ := agent.(*agentT)
-	return o
 }
 
 // New - create a new operative
@@ -77,7 +71,6 @@ func (a *agentT) Run() {
 func (a *agentT) Shutdown() {
 	if !a.emissary.IsClosed() {
 		a.emissary.C <- messaging.Shutdown
-		a.caseOfficers.Shutdown()
 	}
 }
 
