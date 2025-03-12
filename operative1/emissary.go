@@ -21,8 +21,10 @@ func emissaryAttend(agent *agentT, newAgent newOfficerAgent) {
 			switch msg.Event() {
 			case messaging.PauseEvent:
 				paused = true
+				agent.caseOfficers.Broadcast(messaging.Pause)
 			case messaging.ResumeEvent:
 				paused = false
+				agent.caseOfficers.Broadcast(messaging.Resume)
 			case messaging.StopEvent:
 				if !paused {
 					agent.caseOfficers.Shutdown()
