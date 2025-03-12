@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	testDuration = time.Second
+	testDuration = time.Second * 4
 )
 
 func officer(origin common.Origin, resolver content.Resolution, dispatcher messaging.Dispatcher) messaging.Agent {
