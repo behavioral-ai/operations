@@ -59,6 +59,6 @@ func ExampleExchange() {
 	//test: Exchange() -> [code:400] [error: invalid path]
 	//test: Exchange() -> [code:400] [error: no query args]
 	//test: Exchange() -> [code:400] [error: event query key not found]
-	//test: Exchange() -> [code:200] []
+	//test: Exchange() -> [code:400] [AgentMessage() -> [error: invalid event] [event:invalid]]
 
 }
