@@ -2,12 +2,12 @@ package operative1
 
 import (
 	"fmt"
+	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/collective"
 )
 
 func ExampleAssignments() {
-	agent := newAgent(collective.NewEphemeralResolver(), messaging.NewTraceDispatcher())
+	agent := newAgent(content.NewEphemeralResolver(), messaging.NewTraceDispatcher())
 
 	createAssignments(agent, officer)
 

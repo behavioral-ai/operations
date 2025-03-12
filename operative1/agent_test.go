@@ -1,15 +1,15 @@
 package operative1
 
 import (
+	"github.com/behavioral-ai/collective/content"
+	"github.com/behavioral-ai/collective/test"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/collective"
-	"github.com/behavioral-ai/domain/test"
 	"time"
 )
 
 func ExampleAgent_NotFound() {
 	ch := make(chan struct{})
-	agent := newAgent(collective.NewEphemeralResolver(), messaging.NewTraceDispatcher())
+	agent := newAgent(content.NewEphemeralResolver(), messaging.NewTraceDispatcher())
 
 	go func() {
 		agent.Run()
@@ -30,7 +30,7 @@ func ExampleAgent_NotFound() {
 
 func ExampleAgent() {
 	ch := make(chan struct{})
-	agent := newAgent(nil, nil) //collective.NewEphemeralResolver(), messaging.NewTraceDispatcher())
+	agent := newAgent(nil, nil) //content.NewEphemeralResolver(), messaging.NewTraceDispatcher())
 	test.Startup()
 
 	go func() {

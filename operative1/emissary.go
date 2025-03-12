@@ -1,12 +1,12 @@
 package operative1
 
 import (
+	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/collective"
 	"github.com/behavioral-ai/domain/common"
 )
 
-type newOfficerAgent func(origin common.Origin, resolver collective.Resolution, dispatcher messaging.Dispatcher) messaging.Agent
+type newOfficerAgent func(origin common.Origin, resolver content.Resolution, dispatcher messaging.Dispatcher) messaging.Agent
 
 // emissary attention
 func emissaryAttend(agent *agentT, newAgent newOfficerAgent) {

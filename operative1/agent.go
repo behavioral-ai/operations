@@ -2,8 +2,8 @@ package operative1
 
 import (
 	"github.com/behavioral-ai/caseofficer/agent"
+	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/collective"
 )
 
 const (
@@ -17,7 +17,7 @@ type agentT struct {
 
 	emissary     *messaging.Channel
 	caseOfficers *messaging.Exchange
-	resolver     collective.Resolution
+	resolver     content.Resolution
 	dispatcher   messaging.Dispatcher
 }
 
@@ -26,14 +26,14 @@ func New() messaging.Agent {
 	return newAgent(nil, nil)
 }
 
-func newAgent(resolver collective.Resolution, dispatcher messaging.Dispatcher) *agentT {
+func newAgent(resolver content.Resolution, dispatcher messaging.Dispatcher) *agentT {
 	r := new(agentT)
 	r.uri = Name
 
 	r.caseOfficers = messaging.NewExchange()
 	r.emissary = messaging.NewEmissaryChannel()
 	if resolver == nil {
-		r.resolver = collective.Resolver
+		r.resolver = content.Resolver
 	} else {
 		r.resolver = resolver
 	}

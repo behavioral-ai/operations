@@ -1,8 +1,8 @@
 package module
 
 import (
+	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/collective"
 	"github.com/behavioral-ai/operations/operative1"
 )
 
@@ -11,8 +11,8 @@ const (
 	ResiliencyPath = "/resiliency"
 )
 
-func Startup(hosts []string, do collective.HttpExchange, appHostName string) {
-	collective.Startup(hosts, do, appHostName)
+func Startup(hosts []string, do content.HttpExchange, appHostName string) {
+	content.Startup(hosts, do, appHostName)
 	AgentMessage(messaging.StartupEvent)
 }
 
