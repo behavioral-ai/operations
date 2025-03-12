@@ -31,7 +31,7 @@ func Exchange(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("error: event query key not found"))
 		return
 	}
-	err := module.AgentMessage(event)
+	err := module.AgentMessage("event:" + event)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))

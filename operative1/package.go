@@ -25,7 +25,7 @@ func AgentMessage(event string) error {
 	case messaging.ResumeEvent:
 		opsAgent.Message(messaging.NewMessage(messaging.Control, event))
 	default:
-		return errors.New(fmt.Sprintf("AgentMessage() -> [%v] [event:%v]", "error: invalid event", event))
+		return errors.New(fmt.Sprintf("AgentMessage() -> [%v] [%v]", "error: invalid event", event))
 	}
 	return nil
 }
