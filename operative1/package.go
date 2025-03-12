@@ -22,8 +22,9 @@ func AgentMessage(event string) error {
 	case messaging.StartEvent:
 	case messaging.StopEvent:
 	case messaging.PauseEvent:
+		opsAgent.Message(messaging.Pause)
 	case messaging.ResumeEvent:
-		opsAgent.Message(messaging.NewMessage(messaging.Control, event))
+		opsAgent.Message(messaging.Resume)
 	default:
 		return errors.New(fmt.Sprintf("AgentMessage() -> [%v] [%v]", "error: invalid event", event))
 	}
