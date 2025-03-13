@@ -23,7 +23,7 @@ type agentT struct {
 
 // New - create a new operative
 func New() messaging.Agent {
-	return newAgent(nil, messaging.NewTraceDispatcher())
+	return newAgent(nil, nil)
 }
 
 func newAgent(resolver content.Resolution, dispatcher messaging.Dispatcher) *agentT {
