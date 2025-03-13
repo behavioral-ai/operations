@@ -19,5 +19,5 @@ func Startup(hosts []string, do content.HttpExchange, appHostName string) {
 }
 
 func AgentMessage(event string) error {
-	return operative1.AgentMessage(event)
+	return operative1.Message(event)
 }
