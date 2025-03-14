@@ -3,7 +3,7 @@ package operative1
 import (
 	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/core/test"
+	"github.com/behavioral-ai/core/messaging/messagingtest"
 	"github.com/behavioral-ai/domain/common"
 	"time"
 )
@@ -13,7 +13,7 @@ const (
 )
 
 func officer(origin common.Origin, resolver content.Resolution, dispatcher messaging.Dispatcher) messaging.Agent {
-	return test.NewAgent("officer:" + origin.Region)
+	return messagingtest.NewAgent("officer:" + origin.Region)
 }
 
 func ExampleEmissary() {
