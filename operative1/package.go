@@ -11,19 +11,29 @@ const (
 )
 
 var (
-	opsAgent = New()
+	opsAgent messaging.Agent
 )
 
 func Message(event string) error {
 	switch event {
 	case messaging.StartupEvent:
-		opsAgent.Run()
+		if opsAgent == nil {
+			opsAgent = New()
+			opsAgent.Run()
+		}
 	case messaging.ShutdownEvent:
-		opsAgent.Shutdown()
+		if opsAgent != nil {
+			opsAgent.Shutdown()
+			opsAgent = nil
+		}
 	case messaging.PauseEvent:
-		opsAgent.Message(messaging.Pause)
+		if opsAgent != nil {
+			opsAgent.Message(messaging.Pause)
+		}
 	case messaging.ResumeEvent:
-		opsAgent.Message(messaging.Resume)
+		if opsAgent != nil {
+			opsAgent.Message(messaging.Resume)
+		}
 	default:
 		return errors.New(fmt.Sprintf("operative1.Message() -> [%v] [%v]", "error: invalid event", event))
 	}

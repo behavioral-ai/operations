@@ -72,6 +72,7 @@ func (a *agentT) Shutdown() {
 	if !a.emissary.IsClosed() {
 		a.emissary.C <- messaging.Shutdown
 	}
+	a.running = false
 }
 
 func (a *agentT) dispatch(channel any, event string) {
