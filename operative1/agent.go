@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	Name = "resiliency:agent/operations/operative"
+	NamespaceName = "resiliency:agent/operations/operative"
 )
 
 // TODO : need host name
@@ -28,7 +28,7 @@ func New() messaging.Agent {
 
 func newAgent(resolver content.Resolution, dispatcher messaging.Dispatcher) *agentT {
 	r := new(agentT)
-	r.uri = Name
+	r.uri = NamespaceName
 
 	r.caseOfficers = messaging.NewExchange()
 	r.emissary = messaging.NewEmissaryChannel()
@@ -48,7 +48,7 @@ func (a *agentT) String() string { return a.Uri() }
 func (a *agentT) Uri() string { return a.uri }
 
 // Name - agent urn
-func (a *agentT) Name() string { return Name }
+func (a *agentT) Name() string { return NamespaceName }
 
 // Message - message the agent
 func (a *agentT) Message(m *messaging.Message) {
