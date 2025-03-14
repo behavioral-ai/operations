@@ -19,8 +19,7 @@ func Message(event string) error {
 	case messaging.StartupEvent:
 		opsAgent.Run()
 	case messaging.ShutdownEvent:
-	case messaging.StartEvent:
-	case messaging.StopEvent:
+		opsAgent.Shutdown()
 	case messaging.PauseEvent:
 		opsAgent.Message(messaging.Pause)
 	case messaging.ResumeEvent:
