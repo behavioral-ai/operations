@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	NamespaceName = "resiliency:agent/operations/operative"
+	NamespaceName = "resiliency:agent/behavioral-ai/operations/operative"
 )
 
 // TODO : need host name
