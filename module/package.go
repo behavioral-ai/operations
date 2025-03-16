@@ -1,8 +1,8 @@
 package module
 
 import (
-	"github.com/behavioral-ai/collective/test"
 	"github.com/behavioral-ai/core/messaging"
+	"github.com/behavioral-ai/domain/test"
 	"github.com/behavioral-ai/operations/operative1"
 )
 
