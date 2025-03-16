@@ -2,8 +2,8 @@ package operative1
 
 import (
 	"github.com/behavioral-ai/caseofficer/agent"
-	"github.com/behavioral-ai/collective/content"
 	"github.com/behavioral-ai/core/messaging"
+	"github.com/behavioral-ai/domain/content"
 )
 
 const (
