@@ -4,20 +4,27 @@ import (
 	"fmt"
 	"github.com/behavioral-ai/core/messaging"
 	"github.com/behavioral-ai/domain/common"
+	"github.com/behavioral-ai/domain/content"
 )
 
-func createAssignments(agent *agentT, newAgent newOfficerAgent) {
-	addAssignment(agent, common.Origin{Region: common.WestRegion}, newAgent)
-	addAssignment(agent, common.Origin{Region: common.CentralRegion}, newAgent)
+func createAssignments(agent *agentT, resolver *content.Resolution, newAgent newOfficerAgent) {
+	addAssignment(agent, common.Origin{Region: common.WestRegion}, resolver, newAgent)
+	addAssignment(agent, common.Origin{Region: common.CentralRegion}, resolver, newAgent)
 }
 
-func addAssignment(agent *agentT, origin common.Origin, newAgent newOfficerAgent) {
-	a := newAgent(origin, agent.resolver, agent.dispatcher)
+func addAssignment(agent *agentT, origin common.Origin, resolver *content.Resolution, newAgent newOfficerAgent) {
+	a := newAgent(origin, agent.activity, agent.notifier, agent.dispatcher)
 	err := agent.caseOfficers.Register(a)
 	if err != nil {
-		agent.resolver.Notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
+		agent.notify(messaging.NewStatusError(messaging.StatusInvalidArgument, err, agent.Uri()))
 	} else {
 		a.Run()
-		agent.resolver.AddActivity(agent, "event:add-assignment", messaging.Emissary, fmt.Sprintf("added assignment: %v", origin))
+		agent.addActivity(messaging.ActivityItem{
+			Agent:   agent,
+			Event:   "event:add-assignment",
+			Source:  messaging.Emissary,
+			Content: fmt.Sprintf("added assignment: %v", origin),
+		})
+
 	}
 }

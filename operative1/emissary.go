@@ -6,7 +6,7 @@ import (
 	"github.com/behavioral-ai/domain/content"
 )
 
-type newOfficerAgent func(origin common.Origin, resolver content.Resolution, dispatcher messaging.Dispatcher) messaging.Agent
+type newOfficerAgent func(origin common.Origin, activity messaging.ActivityFunc, notifier messaging.NotifyFunc, dispatcher messaging.Dispatcher) messaging.Agent
 
 // emissary attention
 func emissaryAttend(agent *agentT, newAgent newOfficerAgent) {

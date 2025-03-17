@@ -2,8 +2,8 @@ package operative1
 
 import (
 	"github.com/behavioral-ai/caseofficer/agent"
+	"github.com/behavioral-ai/collective/event"
 	"github.com/behavioral-ai/core/messaging"
-	"github.com/behavioral-ai/domain/content"
 )
 
 const (
@@ -17,28 +17,26 @@ type agentT struct {
 
 	emissary     *messaging.Channel
 	caseOfficers *messaging.Exchange
-	resolver     content.Resolution
+	activity     messaging.ActivityFunc
+	notifier     messaging.NotifyFunc
 	dispatcher   messaging.Dispatcher
 }
 
 // New - create a new operative
 func New() messaging.Agent {
-	return newAgent(nil, nil)
+	return newAgent(nil, nil, nil)
 }
 
-func newAgent(resolver content.Resolution, dispatcher messaging.Dispatcher) *agentT {
-	r := new(agentT)
-	r.uri = NamespaceName
+func newAgent(activity messaging.ActivityFunc, notifier messaging.NotifyFunc, dispatcher messaging.Dispatcher) *agentT {
+	a := new(agentT)
+	a.uri = NamespaceName
 
-	r.caseOfficers = messaging.NewExchange()
-	r.emissary = messaging.NewEmissaryChannel()
-	if resolver == nil {
-		r.resolver = content.Resolver
-	} else {
-		r.resolver = resolver
-	}
-	r.dispatcher = dispatcher
-	return r
+	a.caseOfficers = messaging.NewExchange()
+	a.emissary = messaging.NewEmissaryChannel()
+	a.activity = activity
+	a.notifier = notifier
+	a.dispatcher = dispatcher
+	return a
 }
 
 // String - identity
@@ -73,6 +71,25 @@ func (a *agentT) Shutdown() {
 		a.emissary.C <- messaging.Shutdown
 	}
 	a.running = false
+}
+
+func (a *agentT) notify(e messaging.NotifyItem) {
+	if e == nil {
+		return
+	}
+	if a.notifier != nil {
+		a.notifier(e)
+	} else {
+		event.Agent.Message(messaging.NewNotifyMessage(e))
+	}
+}
+
+func (a *agentT) addActivity(e messaging.ActivityItem) {
+	if a.activity != nil {
+		a.activity(e)
+	} else {
+		event.Agent.Message(messaging.NewActivityMessage(e))
+	}
 }
 
 func (a *agentT) dispatch(channel any, event string) {
